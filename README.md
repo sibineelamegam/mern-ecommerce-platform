@@ -68,7 +68,6 @@ Frontend runs at: `http://localhost:5173`
 ### 📡 API Endpoints
 
 #### 🔐 Auth
-<<<<<<< HEAD
 
 - `POST /api/auth/register` – 📝 Register user
 - `POST /api/auth/login` – 🔑 Login user
@@ -153,10 +152,11 @@ Frontend runs at: `http://localhost:5173`
 - `GET /api/orders/my` – 🧾 Get orders for logged-in user  
 - `POST /api/orders` – 🛍️ Place order  
 - `GET /api/orders/:id` – 📄 Get order by ID  
+
 **Admin-only:**  
 - `GET /api/orders` – 🗂️ Get all orders  
 - `PUT /api/orders/:id` – ✏️ Update order status  
->>>>>>> 6d95d886c384a6fe755401bd3a9d0e736a654a3d
+
 
 ### Project Structure
 
