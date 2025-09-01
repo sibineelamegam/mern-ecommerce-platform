@@ -1,0 +1,61 @@
+export const loginStyles = {
+  container: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100vh",
+    background: "linear-gradient(135deg, #1f1f1f, #3a3a3a)",
+    fontFamily: "'Roboto', sans-serif",
+  },
+  card: {
+    backgroundColor: "#2c2c2c",
+    padding: "2rem",
+    borderRadius: "12px",
+    boxShadow: "0 10px 30px rgba(0,0,0,0.7)",
+    width: "100%",
+    maxWidth: "400px",
+  },
+  title: {
+    textAlign: "center",
+    marginBottom: "1.5rem",
+    color: "#fff",
+  },
+  inputGroup: {
+    display: "flex",
+    flexDirection: "column",
+    marginBottom: "1rem",
+  },
+  label: {
+    marginBottom: "0.5rem",
+    fontWeight: "500",
+    color: "#ccc",
+  },
+  input: {
+    padding: "0.75rem 1rem",
+    borderRadius: "8px",
+    border: "1px solid #555",
+    backgroundColor: "#1f1f1f",
+    color: "#fff",
+    fontSize: "1rem",
+  },
+  button: {
+    width: "100%",
+    padding: "0.75rem",
+    borderRadius: "8px",
+    border: "none",
+    backgroundColor: "#667eea",
+    color: "#fff",
+    fontWeight: "600",
+    cursor: "pointer",
+    transition: "all 0.3s ease",
+  },
+  buttonHover: {
+    backgroundColor: "#5563c1",
+  },
+  message: {
+    textAlign: "center",
+    marginBottom: "1rem",
+    fontWeight: "500",
+    color: "#fff",
+  },
+};
