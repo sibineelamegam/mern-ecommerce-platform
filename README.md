@@ -114,39 +114,6 @@ Frontend runs at: `http://localhost:5173`
 - `GET /api/orders` – 🗂️ Admin: Get all orders
 - `PUT /api/orders/:id` – ✏️ Admin: Update order status
 
-#### 👤 Users
-- `GET /api/users` – 👥 Admin: get all users  
-- `GET /api/users/:id` – 👤 Admin: get single user  
-- `PUT /api/users/:id` – ✏️ Admin: update user  
-- `DELETE /api/users/:id` – 🗑️ Admin: delete user  
-- `GET /api/users/profile/me` – 🧑 Get logged-in user profile  
-- `PUT /api/users/profile/me` – ✏️ Update logged-in user profile  
-
-#### 🗂 Categories
-- `GET /api/categories` – 📂 Get all categories  
-- `GET /api/categories/:id` – 📄 Get single category  
-- `POST /api/categories` – ➕ Admin: create category  
-- `PUT /api/categories/:id` – ✏️ Admin: update category  
-- `DELETE /api/categories/:id` – 🗑️ Admin: delete category  
-
-#### 📦 Products
-- `GET /api/products` – 📦 Get all products  
-- `GET /api/products/:id` – 📄 Get product by ID  
-- `POST /api/products` – ➕ Admin: create product  
-- `PUT /api/products/:id` – ✏️ Admin: update product  
-- `DELETE /api/products/:id` – 🗑️ Admin: delete product  
-
-#### 🛒 Cart & Wishlist
-- `/api/cart` – 🛒 CRUD cart items (logged-in users)  
-- `/api/wishlist` – 💖 CRUD wishlist items (logged-in users)  
-
-#### 📦 Orders
-- `GET /api/orders/my` – 🧾 Get orders for logged-in user  
-- `POST /api/orders` – 🛍️ Place order  
-- `GET /api/orders/:id` – 📄 Get order by ID  
-- `GET /api/orders` – 🗂️ Admin: Get all orders  
-- `PUT /api/orders/:id` – ✏️ Admin: Update order status  
-
 
 ### Project Structure
 
