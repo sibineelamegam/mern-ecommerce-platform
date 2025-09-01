@@ -111,16 +111,8 @@ Frontend runs at: `http://localhost:5173`
 - `GET /api/orders/my` – 🧾 Get orders for logged-in user
 - `POST /api/orders` – 🛍️ Place order
 - `GET /api/orders/:id` – 📄 Get order by ID  
-  **Admin-only:**
-- `GET /api/orders` – 🗂️ Get all orders
-- `PUT /api/orders/:id` – ✏️ Update order status
-=======
-- `POST /api/auth/register` – 📝 Register user  
-- `POST /api/auth/login` – 🔑 Login user  
-- `POST /api/auth/logout` – 🚪 Logout user  
-- `GET /api/auth/refresh` – ♻️ Refresh token  
-- `POST /api/auth/forgot-password` – ✉️ Forgot password  
-- `POST /api/auth/reset-password` – 🔄 Reset password  
+- `GET /api/orders` – 🗂️ Admin: Get all orders
+- `PUT /api/orders/:id` – ✏️ Admin: Update order status
 
 #### 👤 Users
 - `GET /api/users` – 👥 Admin: get all users  
@@ -152,10 +144,8 @@ Frontend runs at: `http://localhost:5173`
 - `GET /api/orders/my` – 🧾 Get orders for logged-in user  
 - `POST /api/orders` – 🛍️ Place order  
 - `GET /api/orders/:id` – 📄 Get order by ID  
-
-**Admin-only:**  
-- `GET /api/orders` – 🗂️ Get all orders  
-- `PUT /api/orders/:id` – ✏️ Update order status  
+- `GET /api/orders` – 🗂️ Admin: Get all orders  
+- `PUT /api/orders/:id` – ✏️ Admin: Update order status  
 
 
 ### Project Structure
@@ -180,12 +170,14 @@ frontend/
 │  ├─ routes/
 │  ├─ styles/
 │  ├─ theme.js
-│  └─ main.jsx & app.jsx
+│  ├─ app.jsx
+│  └─ main.jsx 
 ├─ package.json
 ├─ vite.config.js
 ```
 
-### This project uses ES Modules. Make sure "type": "module" is set in your backend/package.json:
+**This project uses ES Modules. Make sure "type": "module" is set in your backend/package.json:** 
+
 ```
 {
   "name": "backend",
