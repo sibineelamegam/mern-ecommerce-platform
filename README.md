@@ -67,47 +67,96 @@ Frontend runs at: `http://localhost:5173`
 
 ### 📡 API Endpoints
 
-🔐 Auth
-POST /api/auth/register – 📝 Register user
-POST /api/auth/login – 🔑 Login user
-POST /api/auth/logout – 🚪 Logout user
-GET /api/auth/refresh – ♻️ Refresh token
-POST /api/auth/forgot-password – ✉️ Forgot password
-POST /api/auth/reset-password – 🔄 Reset password
+#### 🔐 Auth
+<<<<<<< HEAD
 
-👤 Users
-GET /api/users – 👥 Admin: get all users
-GET /api/users/\:id – 👤 Admin: get single user
-PUT /api/users/\:id – ✏️ Admin: update user
-DELETE /api/users/\:id – 🗑️ Admin: delete user
-GET /api/users/profile/me – 🧑 Get logged-in user profile
-PUT /api/users/profile/me – ✏️ Update logged-in user profile
+- `POST /api/auth/register` – 📝 Register user
+- `POST /api/auth/login` – 🔑 Login user
+- `POST /api/auth/logout` – 🚪 Logout user
+- `GET /api/auth/refresh` – ♻️ Refresh token
+- `POST /api/auth/forgot-password` – ✉️ Forgot password
+- `POST /api/auth/reset-password` – 🔄 Reset password
 
-🗂 Categories
-GET /api/categories – 📂 Get all categories
-GET /api/categories/\:id – 📄 Get single category
-POST /api/categories – ➕ Admin: create category
-PUT /api/categories/\:id – ✏️ Admin: update category
-DELETE /api/categories/\:id – 🗑️ Admin: delete category
+#### 👤 Users
 
-📦 Products
-GET /api/products – 📦 Get all products
-GET /api/products/\:id – 📄 Get product by ID
-POST /api/products – ➕ Admin: create product
-PUT /api/products/\:id – ✏️ Admin: update product
-DELETE /api/products/\:id – 🗑️ Admin: delete product
+- `GET /api/users` – 👥 Admin: get all users
+- `GET /api/users/:id` – 👤 Admin: get single user
+- `PUT /api/users/:id` – ✏️ Admin: update user
+- `DELETE /api/users/:id` – 🗑️ Admin: delete user
+- `GET /api/users/profile/me` – 🧑 Get logged-in user profile
+- `PUT /api/users/profile/me` – ✏️ Update logged-in user profile
 
-🛒 Cart & Wishlist
-/api/cart – 🛒 CRUD cart items (logged-in users)
-/api/wishlist – 💖 CRUD wishlist items (logged-in users)
+#### 🗂 Categories
 
-📦 Orders
-GET /api/orders/my – 🧾 Get orders for logged-in user
-POST /api/orders – 🛍️ Place order
-GET /api/orders/\:id – 📄 Get order by ID
-Admin-only:
-GET /api/orders – 🗂️ Get all orders
-PUT /api/orders/\:id – ✏️ Update order status
+- `GET /api/categories` – 📂 Get all categories
+- `GET /api/categories/:id` – 📄 Get single category
+- `POST /api/categories` – ➕ Admin: create category
+- `PUT /api/categories/:id` – ✏️ Admin: update category
+- `DELETE /api/categories/:id` – 🗑️ Admin: delete category
+
+#### 📦 Products
+
+- `GET /api/products` – 📦 Get all products
+- `GET /api/products/:id` – 📄 Get product by ID
+- `POST /api/products` – ➕ Admin: create product
+- `PUT /api/products/:id` – ✏️ Admin: update product
+- `DELETE /api/products/:id` – 🗑️ Admin: delete product
+
+#### 🛒 Cart & Wishlist
+
+- `/api/cart` – 🛒 CRUD cart items (logged-in users)
+- `/api/wishlist` – 💖 CRUD wishlist items (logged-in users)
+
+#### 📦 Orders
+
+- `GET /api/orders/my` – 🧾 Get orders for logged-in user
+- `POST /api/orders` – 🛍️ Place order
+- `GET /api/orders/:id` – 📄 Get order by ID  
+  **Admin-only:**
+- `GET /api/orders` – 🗂️ Get all orders
+- `PUT /api/orders/:id` – ✏️ Update order status
+=======
+- `POST /api/auth/register` – 📝 Register user  
+- `POST /api/auth/login` – 🔑 Login user  
+- `POST /api/auth/logout` – 🚪 Logout user  
+- `GET /api/auth/refresh` – ♻️ Refresh token  
+- `POST /api/auth/forgot-password` – ✉️ Forgot password  
+- `POST /api/auth/reset-password` – 🔄 Reset password  
+
+#### 👤 Users
+- `GET /api/users` – 👥 Admin: get all users  
+- `GET /api/users/:id` – 👤 Admin: get single user  
+- `PUT /api/users/:id` – ✏️ Admin: update user  
+- `DELETE /api/users/:id` – 🗑️ Admin: delete user  
+- `GET /api/users/profile/me` – 🧑 Get logged-in user profile  
+- `PUT /api/users/profile/me` – ✏️ Update logged-in user profile  
+
+#### 🗂 Categories
+- `GET /api/categories` – 📂 Get all categories  
+- `GET /api/categories/:id` – 📄 Get single category  
+- `POST /api/categories` – ➕ Admin: create category  
+- `PUT /api/categories/:id` – ✏️ Admin: update category  
+- `DELETE /api/categories/:id` – 🗑️ Admin: delete category  
+
+#### 📦 Products
+- `GET /api/products` – 📦 Get all products  
+- `GET /api/products/:id` – 📄 Get product by ID  
+- `POST /api/products` – ➕ Admin: create product  
+- `PUT /api/products/:id` – ✏️ Admin: update product  
+- `DELETE /api/products/:id` – 🗑️ Admin: delete product  
+
+#### 🛒 Cart & Wishlist
+- `/api/cart` – 🛒 CRUD cart items (logged-in users)  
+- `/api/wishlist` – 💖 CRUD wishlist items (logged-in users)  
+
+#### 📦 Orders
+- `GET /api/orders/my` – 🧾 Get orders for logged-in user  
+- `POST /api/orders` – 🛍️ Place order  
+- `GET /api/orders/:id` – 📄 Get order by ID  
+**Admin-only:**  
+- `GET /api/orders` – 🗂️ Get all orders  
+- `PUT /api/orders/:id` – ✏️ Update order status  
+>>>>>>> 6d95d886c384a6fe755401bd3a9d0e736a654a3d
 
 ### Project Structure
 
