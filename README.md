@@ -185,4 +185,17 @@ frontend/
 ├─ vite.config.js
 ```
 
+### This project uses ES Modules. Make sure "type": "module" is set in your backend/package.json:
+```
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon server.js"
+  }
+}
+```
+
 **E-Commerce Web Application:** Tokens stored in HTTP-only cookies, CORS configured, role checks enforced on frontend/backend, auto-refresh access tokens silently on frontend load.
