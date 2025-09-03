@@ -163,6 +163,7 @@ const ProductManagement = () => {
           <Table>
             <TableHead>
               <TableRow>
+                  <TableCell>Order ID</TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>Description</TableCell>
                 <TableCell>Price</TableCell>
@@ -175,6 +176,7 @@ const ProductManagement = () => {
             <TableBody>
               {products.map((prod) => (
                 <TableRow key={prod._id}>
+                  <TableCell>{prod.productId}</TableCell>
                   <TableCell>{prod.name}</TableCell>
                   <TableCell>{prod.description}</TableCell>
                   <TableCell>{prod.price}</TableCell>
