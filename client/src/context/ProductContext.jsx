@@ -11,12 +11,13 @@ export const ProductContext = createContext();
 export const useProducts = () => useContext(ProductContext);
 
 export const ProductProvider = ({ children }) => {
-  const [products, setProducts] = useState([]); //  Admin
-  const [categoryProducts, setCategoryProducts] = useState([]); // Customer
-  const [loadingInitial, setLoadingInitial] = useState(true);
-  const [loadingAction, setLoadingAction] = useState(false);
+  const [products, setProducts] = useState([]); //  Products for admin (product management)
+  const [categoryProducts, setCategoryProducts] = useState([]); // Products for customers (by category)
+  const [loadingInitial, setLoadingInitial] = useState(true); // Loading state for product management (admin)
+  const [loadingAction, setLoadingAction] = useState(false); // Loading state for product actions (create, update, delete, fetch by ID)
+  const [loadingCategory, setLoadingCategory] = useState(false); // Loading state for category-based product fetch (ProductsPage)
 
-  /** Fetch all products (for admin) */
+  /** Fetch all products (for admin product management) */
   const fetchProducts = useCallback(async () => {
     setLoadingInitial(true);
     try {
@@ -32,9 +33,10 @@ export const ProductProvider = ({ children }) => {
     }
   }, []);
 
-  /** Fetch products by category (for ProductsPage) */
+  /** Fetch products by category (for ProductsPage - customer side) */
   const fetchProductsByCategory = useCallback(async (categoryId) => {
-    setLoadingInitial(true);
+    setLoadingCategory(true); // show spinner while fetching category products
+    setCategoryProducts([]); // clear old products immediately to prevent flicker
     try {
       const data = await getAllProducts(categoryId);
       setCategoryProducts(data.products || []);
@@ -44,13 +46,13 @@ export const ProductProvider = ({ children }) => {
       setCategoryProducts([]);
       return { type: "error", message: "Failed to fetch category products" };
     } finally {
-      setLoadingInitial(false);
+      setLoadingCategory(false);
     }
   }, []);
 
   /** Fetch single product by ID (used by admin or details page) */
   const fetchProductById = useCallback(async (id) => {
-    setLoadingAction(true);
+    setLoadingAction(true); 
     try {
       const data = await getProductById(id);
       setProducts((prev) => {
@@ -68,9 +70,9 @@ export const ProductProvider = ({ children }) => {
     }
   }, []);
 
-  /** Create a new product */
+  /** Create a new product (admin only) */
   const addProduct = async (formData) => {
-    setLoadingAction(true);
+    setLoadingAction(true); 
     try {
       const { product: newProduct } = await createProduct(formData);
       setProducts((prev) => [...prev, newProduct]);
@@ -83,7 +85,7 @@ export const ProductProvider = ({ children }) => {
     }
   };
 
-  /** Update a product */
+  /** Update a product (admin only) */
   const updateProd = async (id, formData) => {
     setLoadingAction(true);
     try {
@@ -98,9 +100,9 @@ export const ProductProvider = ({ children }) => {
     }
   };
 
-  /** Delete a product */
+  /** Delete a product (admin only) */
   const removeProduct = async (id) => {
-    setLoadingAction(true);
+    setLoadingAction(true); 
     try {
       await deleteProduct(id);
       setProducts((prev) => prev.filter((p) => p._id !== id));
@@ -120,6 +122,7 @@ export const ProductProvider = ({ children }) => {
         categoryProducts,
         loadingInitial,
         loadingAction,
+        loadingCategory, 
         fetchProducts,
         fetchProductsByCategory,
         fetchProductById,

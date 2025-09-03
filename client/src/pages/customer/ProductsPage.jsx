@@ -5,26 +5,21 @@ import CardItem from "../../components/common/CardItem";
 import Spinner from "../../components/common/Spinner";
 import commonStyles from "../../styles/commonStyles";
 import { useProducts } from "../../context/ProductContext";
-import AlertToast from "../../components/common/AlertToast";
-import useAlert from "../../hooks/useAlert";
 
 const ProductsPage = () => {
   const { id } = useParams();
-  const { categoryProducts, loadingInitial, fetchProductsByCategory } =
+  const { categoryProducts, loadingCategory, fetchProductsByCategory } =
     useProducts();
-  const { alert, setAlert, closeAlert } = useAlert();
 
   useEffect(() => {
-    if (!id) return; // no category → don’t fetch
+    if (!id) return;
     fetchProductsByCategory(id);
   }, [id, fetchProductsByCategory]);
 
-  if (loadingInitial) return <Spinner />;
+  if (loadingCategory) return <Spinner />;
 
   return (
     <Box p={3}>
-      <AlertToast alert={alert} closeAlert={closeAlert} />
-
       <Typography variant="h6" sx={commonStyles.sectionTitle}>
         Products
       </Typography>
@@ -44,7 +39,6 @@ const ProductsPage = () => {
                 image={product.images?.[0]}
                 type="product"
                 stock={product.stock}
-                setAlert={setAlert}
               />
             </Box>
           ))
