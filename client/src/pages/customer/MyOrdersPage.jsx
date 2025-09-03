@@ -59,7 +59,7 @@ const MyOrdersPage = () => {
             <TableBody>
               {orders.map((order) => (
                 <TableRow key={order._id}>
-                  <TableCell>{order._id}</TableCell>
+                  <TableCell>{order.orderId}</TableCell>
                   <TableCell>
                     {new Date(order.createdAt).toLocaleDateString()}
                   </TableCell>

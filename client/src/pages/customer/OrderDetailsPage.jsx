@@ -53,7 +53,7 @@ const OrderDetailsPage = () => {
       {/* Order Summary */}
       <Paper sx={{ p: 2, mb: 3 }}>
         <Typography>
-          <strong>Order ID:</strong> {order._id}
+          <strong>Order ID:</strong> {order.orderId}
         </Typography>
         <Typography>
           <strong>Status:</strong>{" "}
