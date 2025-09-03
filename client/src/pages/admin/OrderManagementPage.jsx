@@ -79,7 +79,7 @@ const OrderManagementPage = () => {
               ) : (
                 orders.map((order) => (
                   <TableRow key={order._id}>
-                    <TableCell>{order._id}</TableCell>
+                    <TableCell>{order.orderId}</TableCell>
                     <TableCell>{order.user?.name || "Unknown"}</TableCell>
                     <TableCell>{order.shippingInfo?.address}</TableCell>
                     <TableCell>{order.shippingInfo?.city}</TableCell>
