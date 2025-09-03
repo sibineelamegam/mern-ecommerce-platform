@@ -34,7 +34,6 @@ export const ProductProvider = ({ children }) => {
 
   /** Fetch products by category (for ProductsPage) */
   const fetchProductsByCategory = useCallback(async (categoryId) => {
-    if (!categoryId) return;
     setLoadingInitial(true);
     try {
       const data = await getAllProducts(categoryId);
