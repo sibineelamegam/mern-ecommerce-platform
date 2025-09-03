@@ -13,7 +13,7 @@ const cardStyles = {
     },
   },
   media: {
-    height: 180,
+    height: 200,
     objectFit: "cover",
   },
   content: {
@@ -23,6 +23,7 @@ const cardStyles = {
   title: {
     fontSize: "17px",
   },
+
   outOfStockBadge: {
     position: "absolute",
     top: 8,
