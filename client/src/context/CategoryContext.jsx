@@ -26,7 +26,7 @@ export const CategoryProvider = ({ children }) => {
     try {
       const data = await getAllCategories();
       setCategories(data?.categories || []);
-      return { type: "success", message: "Products fetched" };
+      return { type: "success", message: "categories fetched" };
     } catch (err) {
       console.error(err);
       return { type: "error", message: "Failed to fetch categories" };

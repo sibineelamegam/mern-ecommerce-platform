@@ -49,9 +49,8 @@ const CategoryManagement = () => {
 
   /** Fetch Categories automatically on context mount */
   useEffect(() => {
-    if (categories.length === 0)
-      fetchCategories().then((res) => res && setAlert({ ...res, open: true }));
-  }, [fetchCategories, categories.length, setAlert]);
+    fetchCategories().then((res) => res && setAlert({ ...res, open: true }));
+  }, [fetchCategories, setAlert]);
 
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
