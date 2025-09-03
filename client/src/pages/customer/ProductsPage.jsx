@@ -16,10 +16,8 @@ const ProductsPage = () => {
 
   useEffect(() => {
     if (!id) return; // no category → don’t fetch
-    fetchProductsByCategory(id).then((res) => {
-      if (res) setAlert({ ...res, open: true });
-    });
-  }, [id, fetchProductsByCategory, setAlert]);
+    fetchProductsByCategory(id);
+  }, [id, fetchProductsByCategory]);
 
   if (loadingInitial) return <Spinner />;
 
