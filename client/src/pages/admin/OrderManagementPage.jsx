@@ -28,11 +28,10 @@ const OrderManagementPage = () => {
   const { alert, setAlert, closeAlert } = useAlert();
 
   // Fetch orders on mount if not loaded
-  useEffect(() => {
-    if (orders.length === 0) {
-      fetchAllOrders().then((res) => res && setAlert({ ...res, open: true }));
-    }
-  }, [fetchAllOrders, orders.length, setAlert]);
+useEffect(() => {
+  fetchAllOrders().then((res) => res && setAlert({ ...res, open: true }));
+}, [fetchAllOrders, setAlert]);
+
 
   const handleStatusChange = async (id, status) => {
     const res = await updateStatus(id, status);
