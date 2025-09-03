@@ -2,12 +2,11 @@ const commonStyle = {
   container: {
     display: "flex",
     flexWrap: "wrap",
-    gap: 3, // spacing between cards
   },
   cardBox: {
-    flex: "1 1 calc(25% - 16px)",   // 4 per row on large screens
+    flex: "1 1 calc(25% - 16px)", // 4 per row on large screens
     maxWidth: "calc(25% - 16px)",
-    boxSizing: "border-box",
+    margin: "8px",
 
     // Responsive breakpoints
     "@media (max-width: 1200px)": {
