@@ -28,10 +28,9 @@ const OrderManagementPage = () => {
   const { alert, setAlert, closeAlert } = useAlert();
 
   // Fetch orders on mount if not loaded
-useEffect(() => {
-  fetchAllOrders().then((res) => res && setAlert({ ...res, open: true }));
-}, [fetchAllOrders, setAlert]);
-
+  useEffect(() => {
+    fetchAllOrders().then((res) => res && setAlert({ ...res, open: true }));
+  }, [fetchAllOrders, setAlert]);
 
   const handleStatusChange = async (id, status) => {
     const res = await updateStatus(id, status);
@@ -105,14 +104,19 @@ useEffect(() => {
                       </Select>
                     </TableCell>
                     <TableCell>
-                      {order.items
-                        .map(
-                          (item) =>
-                            `${item.product?.name || item.name} x${
-                              item.quantity || 0
-                            }`
-                        )
-                        .join(", ")}
+                      {order.items.map((item, idx) => (
+                        <Box key={idx} sx={{ mb: 1 }}>
+                          <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                            {item.product?.name || item.name}
+                          </Typography>
+                          <Typography variant="caption" color="text.secondary">
+                            Qty: {item.quantity || 0} | $
+                            {((item.price || 0) * (item.quantity || 0)).toFixed(
+                              2
+                            )}
+                          </Typography>
+                        </Box>
+                      ))}
                     </TableCell>
                   </TableRow>
                 ))
