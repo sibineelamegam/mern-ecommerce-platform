@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Counter from "./Counter.js";
 
 const orderItemSchema = new mongoose.Schema({
   product: {
@@ -23,6 +24,10 @@ const orderItemSchema = new mongoose.Schema({
 
 const orderSchema = new mongoose.Schema(
   {
+    orderId: {
+      type: String, // formatted like ORD-0001
+      unique: true,
+    },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -41,12 +46,25 @@ const orderSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["Pending", "Processing", "Shipped", "Delivered","Cancelled"],
+      enum: ["Pending", "Processing", "Shipped", "Delivered", "Cancelled"],
       default: "Pending",
     },
   },
   { timestamps: true }
 );
+
+// Pre-save hook to auto-increment and format orderId
+orderSchema.pre("save", async function (next) {
+  if (!this.orderId) {
+    const counter = await Counter.findOneAndUpdate(
+      { name: "orderId" },
+      { $inc: { seq: 1 } },
+      { new: true, upsert: true }
+    );
+    this.orderId = `ORD-${counter.seq.toString().padStart(4, "0")}`;
+  }
+  next();
+});
 
 const Order = mongoose.models.Order || mongoose.model("Order", orderSchema);
 export default Order;
