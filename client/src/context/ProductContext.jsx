@@ -11,15 +11,16 @@ export const ProductContext = createContext();
 export const useProducts = () => useContext(ProductContext);
 
 export const ProductProvider = ({ children }) => {
-  const [products, setProducts] = useState([]);
-  const [loadingInitial, setLoadingInitial] = useState(true); 
-  const [loadingAction, setLoadingAction] = useState(false); 
+  const [products, setProducts] = useState([]); //  Admin
+  const [categoryProducts, setCategoryProducts] = useState([]); // Customer
+  const [loadingInitial, setLoadingInitial] = useState(true);
+  const [loadingAction, setLoadingAction] = useState(false);
 
-  /** Fetch all products, optionally filtered by category */
-  const fetchProducts = useCallback(async (categoryId = null) => {
+  /** Fetch all products (for admin) */
+  const fetchProducts = useCallback(async () => {
     setLoadingInitial(true);
     try {
-      const data = await getAllProducts(categoryId);
+      const data = await getAllProducts();
       setProducts(data.products || []);
       return { type: "success", message: "Products fetched" };
     } catch (err) {
@@ -31,15 +32,32 @@ export const ProductProvider = ({ children }) => {
     }
   }, []);
 
-  /** Fetch single product by ID  */
+  /** Fetch products by category (for ProductsPage) */
+  const fetchProductsByCategory = useCallback(async (categoryId) => {
+    if (!categoryId) return;
+    setLoadingInitial(true);
+    try {
+      const data = await getAllProducts(categoryId);
+      setCategoryProducts(data.products || []);
+      return { type: "success", message: "Category products fetched" };
+    } catch (err) {
+      console.error(err);
+      setCategoryProducts([]);
+      return { type: "error", message: "Failed to fetch category products" };
+    } finally {
+      setLoadingInitial(false);
+    }
+  }, []);
+
+  /** Fetch single product by ID (used by admin or details page) */
   const fetchProductById = useCallback(async (id) => {
     setLoadingAction(true);
     try {
       const data = await getProductById(id);
-      setProducts(prev => {
-        const exists = prev.find(p => p._id === id);
+      setProducts((prev) => {
+        const exists = prev.find((p) => p._id === id);
         return exists
-          ? prev.map(p => (p._id === id ? data.product : p))
+          ? prev.map((p) => (p._id === id ? data.product : p))
           : [...prev, data.product];
       });
       return { type: "success", message: "Product fetched" };
@@ -56,7 +74,7 @@ export const ProductProvider = ({ children }) => {
     setLoadingAction(true);
     try {
       const { product: newProduct } = await createProduct(formData);
-      setProducts(prev => [...prev, newProduct]);
+      setProducts((prev) => [...prev, newProduct]);
       return { type: "success", message: "Product created" };
     } catch (err) {
       console.error(err);
@@ -66,12 +84,12 @@ export const ProductProvider = ({ children }) => {
     }
   };
 
-  /** Update an existing product */
+  /** Update a product */
   const updateProd = async (id, formData) => {
     setLoadingAction(true);
     try {
       const { product: updated } = await updateProduct(id, formData);
-      setProducts(prev => prev.map(p => (p._id === id ? updated : p)));
+      setProducts((prev) => prev.map((p) => (p._id === id ? updated : p)));
       return { type: "success", message: "Product updated" };
     } catch (err) {
       console.error(err);
@@ -86,7 +104,7 @@ export const ProductProvider = ({ children }) => {
     setLoadingAction(true);
     try {
       await deleteProduct(id);
-      setProducts(prev => prev.filter(p => p._id !== id));
+      setProducts((prev) => prev.filter((p) => p._id !== id));
       return { type: "success", message: "Product deleted" };
     } catch (err) {
       console.error(err);
@@ -100,9 +118,11 @@ export const ProductProvider = ({ children }) => {
     <ProductContext.Provider
       value={{
         products,
+        categoryProducts,
         loadingInitial,
         loadingAction,
         fetchProducts,
+        fetchProductsByCategory,
         fetchProductById,
         addProduct,
         updateProd,

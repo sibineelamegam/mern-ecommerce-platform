@@ -55,9 +55,8 @@ const ProductManagement = () => {
   const fileInputRef = useRef(null);
 
   useEffect(() => {
-    if (products.length === 0)
-      fetchProducts().then((res) => res && setAlert({ ...res, open: true }));
-  }, [fetchProducts, products.length, setAlert]);
+    fetchProducts().then((res) => res && setAlert({ ...res, open: true }));
+  }, [fetchProducts, setAlert]);
 
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
@@ -163,7 +162,7 @@ const ProductManagement = () => {
           <Table>
             <TableHead>
               <TableRow>
-                  <TableCell>Order ID</TableCell>
+                <TableCell>Order ID</TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>Description</TableCell>
                 <TableCell>Price</TableCell>

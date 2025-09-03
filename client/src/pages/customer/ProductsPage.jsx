@@ -10,23 +10,16 @@ import useAlert from "../../hooks/useAlert";
 
 const ProductsPage = () => {
   const { id } = useParams();
-  const { products, loadingInitial, fetchProducts } = useProducts();
+  const { categoryProducts, loadingInitial, fetchProductsByCategory } =
+    useProducts();
   const { alert, setAlert, closeAlert } = useAlert();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await fetchProducts(id);
-      } catch (err) {
-        setAlert({
-          type: "error",
-          message: "Failed to fetch products",
-          open: true,
-        });
-      }
-    };
-    fetchData();
-  }, [id, fetchProducts, setAlert]);
+    if (!id) return; // no category → don’t fetch
+    fetchProductsByCategory(id).then((res) => {
+      if (res) setAlert({ ...res, open: true });
+    });
+  }, [id, fetchProductsByCategory, setAlert]);
 
   if (loadingInitial) return <Spinner />;
 
@@ -39,12 +32,12 @@ const ProductsPage = () => {
       </Typography>
 
       <Box sx={commonStyles.container}>
-        {products.length === 0 ? (
+        {categoryProducts.length === 0 ? (
           <Typography sx={{ textAlign: "center", mt: 4 }}>
             🚀 No products found in this category.
           </Typography>
         ) : (
-          products.map((product) => (
+          categoryProducts.map((product) => (
             <Box key={product._id} sx={commonStyles.cardBox}>
               <CardItem
                 id={product._id}
@@ -53,7 +46,7 @@ const ProductsPage = () => {
                 image={product.images?.[0]}
                 type="product"
                 stock={product.stock}
-                setAlert={setAlert} // important!
+                setAlert={setAlert}
               />
             </Box>
           ))
