@@ -12,12 +12,13 @@ import deleteProduct from "../controllers/products/deleteProduct.js";
 import getProducts from "../controllers/products/getProducts.js";
 import getProductById from "../controllers/products/getProductById.js";
 import updateProduct from "../controllers/products/updateProduct.js";
-
+import searchProducts from "../controllers/products/searchProducts.js"; 
 
 const router = express.Router();
 
 // PUBLIC CUSTOMER ROUTES
 router.get("/", getProducts); // Get all products
+router.get("/search", searchProducts); // search the products
 router.get("/:id", getProductById); // Get single product by ID
 
 // ADMIN ROUTES (protected)
@@ -36,6 +37,5 @@ router.put(
   updateProduct
 );
 router.delete("/:id", verifyJWT, requireRole("admin"), deleteProduct);
-
 
 export default router;
