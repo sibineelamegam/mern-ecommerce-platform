@@ -13,6 +13,13 @@ export const getProductById = async (id) => {
   return res.data;
 };
 
+// Search products by name (starts with)
+export const searchProducts = async (query) => {
+  if (!query) return [];
+  const res = await axios.get(`/products/search?q=${query}`);
+  return Array.isArray(res.data) ? res.data : []; // ensure array
+};
+
 // Create new product (Admin only)
 export const createProduct = async (formData) => {
   const res = await axios.post("/products", formData);
@@ -30,4 +37,3 @@ export const deleteProduct = async (id) => {
   const res = await axios.delete(`/products/${id}`);
   return res.data;
 };
-
