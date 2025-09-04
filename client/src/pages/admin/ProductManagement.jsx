@@ -38,11 +38,13 @@ const ProductManagement = () => {
     updateProd,
     removeProduct,
   } = useProducts();
-  const { categories } = useCategories();
+
+  const { categories, fetchCategories } = useCategories();
   const { alert, setAlert, closeAlert } = useAlert();
 
   const [openDialog, setOpenDialog] = useState(false);
   const [editProduct, setEditProduct] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState("all");
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -54,9 +56,17 @@ const ProductManagement = () => {
 
   const fileInputRef = useRef(null);
 
+  //  Fetch products + categories on mount
   useEffect(() => {
     fetchProducts().then((res) => res && setAlert({ ...res, open: true }));
-  }, [fetchProducts, setAlert]);
+    fetchCategories();
+  }, [fetchProducts, fetchCategories, setAlert]);
+
+  //  Filter products by selectedCategory
+  const filteredProducts =
+    selectedCategory === "all"
+      ? products
+      : products.filter((p) => p.category?._id === selectedCategory);
 
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
@@ -147,15 +157,56 @@ const ProductManagement = () => {
       <Typography variant="h6" gutterBottom>
         Product Management
       </Typography>
+
+      {/* --- Top Actions --- */}
       <Box sx={{ display: "flex", gap: 2, my: 3 }}>
         <Button variant="contained" onClick={() => handleOpenDialog()}>
           Add Product
         </Button>
+
+        {/*  Category Filter Select */}
+        <TextField
+          select
+          size="small"
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
+          label="Filter by Category"
+          sx={{
+            minWidth: 250,
+            "& .MuiSelect-select": { fontSize: "14px" }, // selected text size
+          }}
+        >
+          <MenuItem sx={{ fontWeight: "bold", fontSize: "0.8rem" }} value="all">
+            All Products
+          </MenuItem>
+          {categories
+            .filter((cat) => !cat.parentCategory)
+            .map((mainCat) => [
+              <MenuItem
+                key={mainCat._id}
+                disabled
+                sx={{ fontWeight: "bold", fontSize: "0.8rem" }}
+              >
+                {mainCat.name.toUpperCase()}
+              </MenuItem>,
+              ...categories
+                .filter((sub) => sub.parentCategory?._id === mainCat._id)
+                .map((sub) => (
+                  <MenuItem
+                    key={sub._id}
+                    value={sub._id}
+                    sx={{ pl: 4, fontSize: "0.8rem" }}
+                  >
+                    {sub.name}
+                  </MenuItem>
+                )),
+            ])}
+        </TextField>
       </Box>
 
       <AlertToast alert={alert} closeAlert={closeAlert} />
 
-      {products.length === 0 ? (
+      {filteredProducts.length === 0 ? (
         <Typography>No products available.</Typography>
       ) : (
         <TableContainer component={Paper}>
@@ -173,7 +224,7 @@ const ProductManagement = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {products.map((prod) => (
+              {filteredProducts.map((prod) => (
                 <TableRow key={prod._id}>
                   <TableCell>{prod.productId}</TableCell>
                   <TableCell>{prod.name}</TableCell>
@@ -213,6 +264,7 @@ const ProductManagement = () => {
         </TableContainer>
       )}
 
+      {/* --- Dialog --- */}
       <Dialog
         open={openDialog}
         onClose={handleCloseDialog}
@@ -260,6 +312,8 @@ const ProductManagement = () => {
             value={formData.stock}
             onChange={handleInputChange}
           />
+
+          {/*  Dialog Category Dropdown (only subcategories selectable) */}
           <TextField
             select
             margin="dense"
@@ -269,11 +323,28 @@ const ProductManagement = () => {
             value={formData.category}
             onChange={handleInputChange}
           >
-            {categories.map((cat) => (
-              <MenuItem key={cat._id} value={cat._id}>
-                {cat.name}
-              </MenuItem>
-            ))}
+            {categories
+              .filter((cat) => !cat.parentCategory)
+              .map((mainCat) => [
+                <MenuItem
+                  key={mainCat._id}
+                  disabled
+                  sx={{ fontWeight: "bold", fontSize: "0.8rem" }}
+                >
+                  {mainCat.name.toUpperCase()}
+                </MenuItem>,
+                ...categories
+                  .filter((sub) => sub.parentCategory?._id === mainCat._id)
+                  .map((sub) => (
+                    <MenuItem
+                      key={sub._id}
+                      value={sub._id}
+                      sx={{ pl: 4, fontSize: "0.8rem" }}
+                    >
+                      {sub.name}
+                    </MenuItem>
+                  )),
+              ])}
           </TextField>
 
           <TextField
