@@ -9,21 +9,32 @@ import {
   MenuItem,
   IconButton,
   Badge,
+  Modal,
+  TextField,
+  List,
+  ListItem,
+  ListItemText,
+  Typography as MuiTypography,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import SearchIcon from "@mui/icons-material/Search";
 import { useCart } from "../../context/CartContext";
 import { useWishlist } from "../../context/WishlistContext";
 import { useAuth } from "../../context/AuthContext";
 import { logoutUser } from "../../api/authApi";
 import useAlert from "../../hooks/useAlert";
 import AlertToast from "../../components/common/AlertToast";
+import { searchProducts } from "../../api/productApi";
 
 const CustomerHeader = () => {
   const { auth, setAuth } = useAuth();
   const [anchorEl, setAnchorEl] = useState(null);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
   const { cart } = useCart();
@@ -32,11 +43,6 @@ const CustomerHeader = () => {
 
   const handleMenuOpen = (event) => setAnchorEl(event.currentTarget);
   const handleMenuClose = () => setAnchorEl(null);
-
-  const navigateTo = (path) => {
-    navigate(path);
-    handleMenuClose();
-  };
 
   const handleLogout = async () => {
     try {
@@ -59,6 +65,35 @@ const CustomerHeader = () => {
   const cartCount = cart?.reduce((sum, item) => sum + item.quantity, 0) || 0;
   const wishlistCount = wishlist?.length || 0;
 
+  const handleSearchOpen = () => setSearchOpen(true);
+  const handleSearchClose = () => {
+    setSearchOpen(false);
+    setSearchTerm("");
+    setSearchResults([]);
+  };
+
+  const navigateTo = (path) => {
+    navigate(path);
+    handleMenuClose();
+  };
+
+  // Fetch products for search using your API function
+  useEffect(() => {
+    if (!searchTerm) return setSearchResults([]);
+
+    const fetchProducts = async () => {
+      try {
+        const results = await searchProducts(searchTerm);
+        setSearchResults(results);
+      } catch (err) {
+        console.error("Search error:", err);
+        setSearchResults([]);
+      }
+    };
+
+    fetchProducts();
+  }, [searchTerm]);
+
   return (
     <>
       <AlertToast alert={alert} closeAlert={closeAlert} />
@@ -75,8 +110,14 @@ const CustomerHeader = () => {
           </Typography>
 
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+            {/* Search Icon */}
+            <IconButton color="inherit" onClick={handleSearchOpen}>
+              <SearchIcon />
+            </IconButton>
+
             {auth ? (
               <>
+                {/* Wishlist Icon */}
                 <IconButton
                   color="inherit"
                   onClick={() => navigate("/customer/wishlist")}
@@ -88,6 +129,7 @@ const CustomerHeader = () => {
                   </Badge>
                 </IconButton>
 
+                {/* Cart Icon */}
                 <IconButton
                   color="inherit"
                   onClick={() => navigate("/customer/cart")}
@@ -128,6 +170,57 @@ const CustomerHeader = () => {
           </Box>
         </Toolbar>
       </AppBar>
+
+      {/* Search Modal */}
+      <Modal open={searchOpen} onClose={handleSearchClose}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            borderRadius: 2,
+            boxShadow: 24,
+            p: 2,
+          }}
+        >
+          <TextField
+            fullWidth
+            placeholder="Search products..."
+            variant="outlined"
+            autoFocus
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+
+          <List>
+            {searchTerm && searchResults.length === 0 && (
+              <MuiTypography
+                sx={{ mt: 1, textAlign: "center", color: "text.secondary" }}
+              >
+                No results found
+              </MuiTypography>
+            )}
+
+            {(Array.isArray(searchResults) ? searchResults : []).map(
+              (product) => (
+                <ListItem
+                  key={product._id}
+                  component="button"
+                  onClick={() => {
+                    navigate(`/product/${product._id}`);
+                    handleSearchClose();
+                  }}
+                >
+                  <ListItemText primary={product.name} />
+                </ListItem>
+              )
+            )}
+          </List>
+        </Box>
+      </Modal>
     </>
   );
 };
