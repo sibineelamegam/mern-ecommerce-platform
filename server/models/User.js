@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["customer", "admin"],
+      enum: ["customer", "admin"],  // It restricts a field to only allow specific values.
       default: "customer",
     },
     resetPasswordToken: String,
@@ -70,3 +70,19 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
 const User = mongoose.models.User || mongoose.model("User", userSchema);
 export default User;
 
+
+/*
+
+
+[Create new User instance in memory]
+            |
+            v
+[pre("save") middleware runs]
+    - Hash password
+    - Generate customerId
+            |
+            v
+[Document saved to MongoDB]
+
+
+*/
