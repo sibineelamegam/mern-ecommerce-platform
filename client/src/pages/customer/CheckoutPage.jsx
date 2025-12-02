@@ -17,8 +17,11 @@ import AlertToast from "../../components/common/AlertToast";
 
 const CheckoutPage = () => {
   const { cart, loadingInitial: cartLoading, clearAll, setCart } = useCart();
-  const { products, fetchProductById, loadingInitial: productLoading } =
-    useProducts();
+  const {
+    products,
+    fetchProductById,
+    loadingAction: productLoading,
+  } = useProducts();
   const { placeOrder } = useOrders();
   const { alert, setAlert, closeAlert } = useAlert();
 
@@ -54,7 +57,9 @@ const CheckoutPage = () => {
     0
   );
 
-  if (cartLoading || productLoading) return <Spinner />;
+  // Improved loading logic
+  const isLoading = cartLoading || (singleProductId && productLoading);
+  if (isLoading) return <Spinner />;
 
   if (!checkoutItems || checkoutItems.length === 0) {
     return (
@@ -79,7 +84,6 @@ const CheckoutPage = () => {
         totalPrice,
       });
 
-      // Show alert based on result
       setAlert({ ...result, open: true });
 
       if (result.type === "success") {
